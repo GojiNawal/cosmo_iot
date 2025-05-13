@@ -1,17 +1,17 @@
-<!-- index.php -->
+<!-- box.php -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>OpenSenseMap Dashboard</title>
+  <title>Sensor Data Viewer</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 40px auto;
       max-width: 960px;
       padding: 20px;
-      line-height: 1.6;
     }
     #map {
       height: 400px;
@@ -35,10 +35,24 @@
 <body>
   <?php include 'menu.php'; ?>
 
-  <h1>Welcome to the OpenSenseMap Dashboard</h1>
-  <p>This dashboard allows you to view real-time environmental sensor data from OpenSenseMap.</p>
+  <h1>Sensor Data Viewer</h1>
 
-  <hr>
+  <?php
+    $country = $_GET['country'] ?? 'default';
+    switch (strtolower($country)) {
+      case 'london':
+        $boxId = '5bd00cd1bb15b70019ceccf2';
+        break;
+      case 'france':
+        $boxId = '5ee7c10ddc1438001bbeaeec';
+        break;
+      case 'spain':
+        $boxId = '626030a418aca4001ca27240'; // your original box
+        break;
+      default:
+        $boxId = '626030a418aca4001ca27240'; // fallback default
+    }
+  ?>
 
   <p id="countdown">Refreshing in 15 seconds...</p>
   <div id="map"></div>
@@ -47,7 +61,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const boxId = '626030a418aca4001ca27240';
+    const boxId = "<?php echo $boxId; ?>";
     let map, marker, countdown = 15;
     const countdownEl = document.getElementById("countdown");
 
